@@ -746,8 +746,24 @@ void QskSkinTransition::run( const QskAnimationHint& animationHint )
                 if ( !w->isVisible() )
                     continue;
 
-                if ( !qskHasHintTable( qskEffectiveSkin( w ), table2 ) )
-                    continue;
+                /*
+                   this leads to an infinite recursion as "qskEffectiveSkin( w )" runs into this function again.
+                   this is the call stack:
+                        qskinny.dll!QskSkinTransition::run(const QskAnimationHint & animationHint) Line 752
+                        qskinny.dll!QskSkin::setColorScheme(QskSkin::ColorScheme colorScheme) Line 263
+                        qskinny.dll!QskSkinManager::createSkin(const QString & skinName, QskSkin::ColorScheme colorScheme) Line 546
+                        qskinny.dll!QskSkinManager::skin() Line 618
+                        qskinny.dll!qskEffectiveSkin(const QQuickWindow * window) Line 722
+                        qskinny.dll!QskSkinTransition::run(const QskAnimationHint & animationHint) Line 752
+                        qskinny.dll!QskSkin::setColorScheme(QskSkin::ColorScheme colorScheme) Line 263
+                        qskinny.dll!QskSkinManager::createSkin(const QString & skinName, QskSkin::ColorScheme colorScheme) Line 546
+                        qskinny.dll!QskSkinManager::skin() Line 618
+                        ...
+                   disabling it seems to do no harm ... done this as a workaround
+                   @TODO: please check this again
+                */
+                //if ( !qskHasHintTable( qskEffectiveSkin( w ), table2 ) )
+                //    continue;
 
                 auto animator = new WindowAnimator( w );
 
