@@ -74,3 +74,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         DESTINATION
             ${QSK_INSTALL_LIBS} OPTIONAL)
 endif()
+
+install(FILES ${HEADERS} 
+    DESTINATION include/qskinny
+)
