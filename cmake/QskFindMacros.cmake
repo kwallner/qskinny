@@ -7,7 +7,7 @@ macro(qsk_setup_Qt)
 
     # relying on cmake heuristics to select a specific Qt version is no good idea.
     # using -DCMAKE_PREFIX_PATH="..." is highly recommended
-    find_package(QT "5.15" NAMES Qt6 Qt5 REQUIRED COMPONENTS Quick)
+    find_package(QT NAMES Qt6 REQUIRED COMPONENTS Quick)
 
     if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
         # we need the qsb tool for Qt6
