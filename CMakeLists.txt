@@ -73,7 +73,11 @@ macro(qsk_setup_install)
     string(TOLOWER "${PROJECT_NAME}" PACKAGE_DIR)
     set(QSK_INSTALL_HEADERS ${CMAKE_INSTALL_INCLUDEDIR}/${PACKAGE_DIR})
     set(QSK_INSTALL_LIBS    ${CMAKE_INSTALL_LIBDIR}/${PACKAGE_DIR})
-
+    if (WIN32)
+    set(QSK_INSTALL_DYNLIBS  ${CMAKE_INSTALL_BINDIR})
+    else()
+    set(QSK_INSTALL_DYNLIBS  ${QSK_INSTALL_LIBS})
+    endif()
 endmacro()
 
 ############################################################################
